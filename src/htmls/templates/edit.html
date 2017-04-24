@@ -1,0 +1,14 @@
+<html>
+<head>
+    <script src="../javascript/angular/angular.min.js"></script>
+    <script src="../javascript/test.js"></script>
+</head>
+<body>
+<h1>Editing {{.Title}}\</h1>
+
+<form action="/save/{{.Title}}" method="GET">
+    <div><textarea name="body" rows="20" cols="80">{{printf "%s" .Title}}</textarea></div>
+    <div><input type="submit" value="Save"></div>
+</form>
+</body>
+</html>
