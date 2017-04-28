@@ -5,6 +5,8 @@ import (
 	"github.com/gorilla/securecookie"
 )
 
+// this logic come from github
+
 // cookie handling
 
 var cookieHandler = securecookie.New(
@@ -62,5 +64,5 @@ func LoginHandler(response http.ResponseWriter, request *http.Request) {
 
 func LogoutHandler(response http.ResponseWriter, request *http.Request) {
 	clearSession(response)
-	http.Redirect(response, request, "/login", 302)
+	http.Redirect(response, request, "/", 302)
 }

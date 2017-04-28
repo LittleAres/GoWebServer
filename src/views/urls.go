@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	//"fmt"
 )
 
 //获取指定目录及所有子目录下的所有文件，可以匹配后缀过滤。
@@ -19,18 +20,29 @@ func WalkDir(dirPth, suffix string) (files []string, err error) {
 		if strings.HasSuffix(strings.ToUpper(fi.Name()), suffix) {
 			filenameWithSuffix := path.Base(filename)
 			fileSuffix := path.Ext(filename)
-			files = append(files, strings.TrimSuffix(filenameWithSuffix, fileSuffix))
+			parentPath := strings.TrimSuffix(filename, filenameWithSuffix)
+			fileName := strings.TrimSuffix(filenameWithSuffix, fileSuffix)
+			// 先留着 虽然没什么用
+			if suffix == ".HTML" {
+				files = append(files, fileName)
+			}
+			if suffix == ".COFFEE"{
+				command := "coffee -co " + strings.Replace(parentPath,"coffee","javascript",1) + " " + filename
+				cmd := exec.Command("/bin/bash", "-c", command)
+				_, err := cmd.Output()
+				_ = err
+			}
 		}
 		return nil
 	})
 	return files, err
 }
 
-func GetTemplates()(files []string){
+func StaticHandler(suffix string)(files []string){
 	// 获取当前路径
 	cmd := exec.Command("pwd")
 	res, _ := cmd.Output()
 	go_path := strings.TrimSpace(string(res))
-	files, _ = WalkDir(go_path,".html")
+	files, _ = WalkDir(go_path,suffix)
 	return files
 }
