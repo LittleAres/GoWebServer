@@ -2,24 +2,23 @@ package views
 
 import (
 	"net/http"
-	"model"
+	"models"
 	"gopkg.in/mgo.v2/bson"
-	"fmt"
+	"controllers"
 )
 
-func RegisterHandler(response http.ResponseWriter, request *http.Request){
-	session,collection := ConnectMongo("test", "user")
+func RegisterView(response http.ResponseWriter, request *http.Request){
+	session,collection := controllers.ConnectMongo("test", "user")
 	// 搞一个id
 	email := request.FormValue("email")
 	pass := request.FormValue("password")
-	fmt.Println(email)
 	// 有没有注册过
-	res := collection.Find(bson.M{"email": email}).One(&model.User{})
+	res := collection.Find(bson.M{"email": email}).One(&models.User{})
 	if res != nil {
-		collection.Insert(&model.User{
-			ID:NewId("user"),
+		collection.Insert(&models.User{
+			ID:controllers.NewId("user"),
 			EMAIL: email,
-			PASSWORD: pass,
+			PASSWORD: controllers.EncryptPass(pass),
 		})
 		response.Write([]byte("1"))
 	} else {

@@ -1,4 +1,4 @@
-package views
+package controllers
 
 import (
 	"gopkg.in/mgo.v2/bson"

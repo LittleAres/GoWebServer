@@ -1,69 +1,36 @@
 package views
 
 import (
-	"github.com/gorilla/securecookie"
+	"controllers"
 	"net/http"
-	"fmt"
+	"gopkg.in/mgo.v2/bson"
+	"models"
 )
 
-// cookie handling
-
-var cookieHandler = securecookie.New(
-	securecookie.GenerateRandomKey(64),
-	securecookie.GenerateRandomKey(32))
-
-func getUserName(request *http.Request) (userName string) {
-	if cookie, err := request.Cookie("session"); err == nil {
-		cookieValue := make(map[string]string)
-		if err = cookieHandler.Decode("session", cookie.Value, &cookieValue); err == nil {
-			userName = cookieValue["name"]
-		}
-	}
-	return userName
-}
-
-func setSession(userName string, response http.ResponseWriter) {
-	value := map[string]string{
-		"name": userName,
-	}
-	if encoded, err := cookieHandler.Encode("session", value); err == nil {
-		cookie := &http.Cookie{
-			Name:  "session",
-			Value: encoded,
-			Path:  "/",
-		}
-		http.SetCookie(response, cookie)
-	}
-}
-
-func clearSession(response http.ResponseWriter) {
-	cookie := &http.Cookie{
-		Name:   "session",
-		Value:  "",
-		Path:   "/",
-		MaxAge: -1,
-	}
-	http.SetCookie(response, cookie)
-}
-
-// login handler
-
-func LoginHandler(response http.ResponseWriter, request *http.Request) {
-	name := request.FormValue("email")
+// login view
+func LoginView(response http.ResponseWriter, request *http.Request){
+	session,collection := controllers.ConnectMongo("test", "user")
+	// 搞一个id
+	email := request.FormValue("email")
 	pass := request.FormValue("password")
-	fmt.Println("66666:",name)
-	fmt.Println(pass)
-	redirectTarget := "/login"
-	if name != "" && pass != "" {
-		setSession(name, response)
-		redirectTarget = "/"
+	// 有没有注册过
+	result := &models.User{}
+	err := collection.Find(bson.M{"email": email}).One(result)
+	if err == nil {
+		if result.PASSWORD == controllers.EncryptPass(pass) {
+			controllers.SetSession(email, response)
+			response.Write([]byte("1"))
+		} else {
+			response.Write([]byte("2"))
+		}
+	} else {
+		response.Write([]byte("3"))
 	}
-	http.Redirect(response, request, redirectTarget, 302)
+	session.Close()
 }
 
-// logout handler
-
-func LogoutHandler(response http.ResponseWriter, request *http.Request) {
-	clearSession(response)
+// logout view
+func LogoutView(response http.ResponseWriter, request *http.Request) {
+	controllers.ClearSession(response)
 	http.Redirect(response, request, "/", 302)
 }

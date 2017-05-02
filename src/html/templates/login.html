@@ -12,6 +12,7 @@
     <script type="text/javascript" src="/javascript/jquery.1.12.0.min.js"></script>
     <script type="text/javascript" src="/javascript/sweetalert.js"></script>
     <script language="JavaScript" type="text/JavaScript">
+        var emailreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
         function switchForm(val){
             if (val == 1){
                 document.getElementById("login-login").style.fontSize="30px";
@@ -27,14 +28,49 @@
                 document.getElementById("register-form").style.display="block";
                 }
             }
+        function login() {
+            // 不能为空
+            var _form = document.form1;
+            if (_form.email.value==""){
+                return swal("warning", "Please input email address!", "warning");
+            }
+            if (_form.password.value==""){
+                return swal("warning", "Please input password!", "warning");
+            }
+            if(!emailreg.test(_form.email.value)) {
+                return swal("warning", "Email format is wrong!", "warning");
+            }
+            $.ajax({
+                url: '/login_handler',
+                type: 'POST',
+                cache: false,
+                data: new FormData(document.getElementById("login-form")),
+                processData: false,
+                contentType: false,
+                crossDomain: true
+            }).done(function (res) {
+                if (res == "1") {
+                    window.location.reload()
+                } else if (res == 2) {
+                    return swal("warning", "Password is wrong!", "warning");
+                } else {
+                    return swal("warning", "Account is not exists!", "warning");
+                }
+            }).fail(function (res) {
+                return swal("error");
+            });
+        }
         function register() {
             // 不能为空
             var _form = document.form2;
             if (_form.email.value==""){
-                return swal("E-mail cannot be null!");
+                return swal("warning", "Please input email address!", "warning");
             }
             if (_form.password.value==""){
-                return swal("Password cannot be null!");
+                return swal("warning", "Please input password!", "warning");
+            }
+            if(!emailreg.test(_form.email.value)) {
+                return swal("warning", "Email format is wrong!", "warning");
             }
             return $.ajax({
                 url: '/register_handler',
@@ -46,12 +82,12 @@
                 crossDomain: true
                 }).done(function (res) {
                     if (res == "1") {
-                        swal("success", "Register successfully", "success");
+                        return swal("success", "Register successfully", "success");
                     } else {
-                        swal("error", "Email Registered", "error");
+                        return swal("error", "Email Registered", "error");
                     }
                 }).fail(function (res) {
-                    swal("error");
+                    return swal("error");
                 });
             }
     </script>
@@ -63,18 +99,17 @@
            <h1 class="login-h1"><b>Welcome</b></h1>
            <button class="login-login" id="login-login" onClick="switchForm(1)">Login</button>
            <button class="login-register" id="login-register" onClick="switchForm(2)">Register</button>
-           <form id="login-form" name="form1" style="display: block" method="post" action="/login_handler">
+           <form id="login-form" name="form1" style="display: block">
               <div class="form-group">
                  <label for="email">Email:</label>
-                 <input type="email" class="login-input" name="mail" placeholder="Email">
+                 <input type="text" class="login-input" name="email" placeholder="Email">
               </div>
               <div class="form-group">
                  <label for="password">Password:</label>
-                 <input type="password" class="login-input" name="pass"
-                    placeholder="Password">
+                 <input type="password" class="login-input" name="password" placeholder="Password">
               </div>
               <div class="form-group">
-              <button class="login-button" type="submit">Login</button>
+                  <button class="login-button" onclick="login()" type="button">Login</button>
               </div>
            </form>
            <form id="register-form" name="form2" style="display: none" >
@@ -84,7 +119,7 @@
               </div>
               <div class="form-group">
                  <label for="email">Email:</label>
-                 <input type="email" class="login-input" id="email" name="email" placeholder="Email" autocomplete="off">
+                 <input type="text" class="login-input" id="email" name="email" placeholder="Email" autocomplete="off">
               </div>
               <div class="form-group">
                  <label for="password">Password:</label>
