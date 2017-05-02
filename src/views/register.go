@@ -3,22 +3,27 @@ package views
 import (
 	"net/http"
 	"model"
+	"gopkg.in/mgo.v2/bson"
+	"fmt"
 )
 
-func RegisterHandler(response http.ResponseWriter, request *http.Request)(ret int)  {
+func RegisterHandler(response http.ResponseWriter, request *http.Request){
 	session,collection := ConnectMongo("test", "user")
-	name := request.FormValue("name")
+	// 搞一个id
+	email := request.FormValue("email")
 	pass := request.FormValue("password")
-	redirectTarget := "/"
-	if name != "" && pass != "" {
-		temp := &model.User{
-			NAME: name,
+	fmt.Println(email)
+	// 有没有注册过
+	res := collection.Find(bson.M{"email": email}).One(&model.User{})
+	if res != nil {
+		collection.Insert(&model.User{
+			ID:NewId("user"),
+			EMAIL: email,
 			PASSWORD: pass,
-		}
-		collection.Insert(temp)
-		session.Close()
-		ret = 1
-		return ret
+		})
+		response.Write([]byte("1"))
+	} else {
+		response.Write([]byte("2"))
 	}
-	http.Redirect(response, request, redirectTarget, 302)
+	session.Close()
 }
