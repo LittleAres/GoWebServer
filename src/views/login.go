@@ -1,11 +1,10 @@
 package views
 
 import (
-	"net/http"
 	"github.com/gorilla/securecookie"
+	"net/http"
+	"fmt"
 )
-
-// this logic come from github
 
 // cookie handling
 
@@ -50,8 +49,10 @@ func clearSession(response http.ResponseWriter) {
 // login handler
 
 func LoginHandler(response http.ResponseWriter, request *http.Request) {
-	name := request.FormValue("name")
+	name := request.FormValue("email")
 	pass := request.FormValue("password")
+	fmt.Println("66666:",name)
+	fmt.Println(pass)
 	redirectTarget := "/login"
 	if name != "" && pass != "" {
 		setSession(name, response)

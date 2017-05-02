@@ -1,31 +1,24 @@
 package views
 
 import (
-
-)
-import (
-	//"gopkg.in/mgo.v2/bson"
-	//"fmt"
 	"net/http"
+	"model"
 )
 
-type User struct {
-	NAME  string
-	PASSWORD string
-}
-
-func RegisterHandler(response http.ResponseWriter, request *http.Request)  {
+func RegisterHandler(response http.ResponseWriter, request *http.Request)(ret int)  {
 	session,collection := ConnectMongo("test", "user")
 	name := request.FormValue("name")
 	pass := request.FormValue("password")
-	redirectTarget := "/login"
+	redirectTarget := "/"
 	if name != "" && pass != "" {
-		temp := &User{
+		temp := &model.User{
 			NAME: name,
 			PASSWORD: pass,
 		}
 		collection.Insert(temp)
 		session.Close()
+		ret = 1
+		return ret
 	}
 	http.Redirect(response, request, redirectTarget, 302)
 }
