@@ -1,0 +1,23 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Index</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script type="text/javascript" src="/javascript/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/javascript/angular/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="/javascript/angular/angular-resource.min.js"></script>
+    <script type="text/javascript" src="/javascript/app.js"></script>
+    <script type="text/javascript" src="/javascript/factory.js"></script>
+    <script type="text/javascript" src="/javascript/controllers/index.js"></script>
+</head>
+<body>
+    <div ng-app="myApp">
+        <div ui-view>
+        </div>
+        <form method="post" action="/logout_handler">
+            <button type="submit">退出</button>
+        </form>
+    </div>
+</body>
+</html>

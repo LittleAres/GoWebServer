@@ -30,15 +30,12 @@ func RenderTemplate(w http.ResponseWriter, title string, p *Page) {
 func PagesHandler(response http.ResponseWriter, request *http.Request) {
 	userName := getUserName(request)
 	var title = request.URL.Path[len("/"):]
-	fmt.Println("66666:",title)
-	if title != "register" {
-		if userName != "" {
-			if title == "" {
-				title = "index"
-			}
-		} else {
-			title = "login"
+	if userName != "" {
+		if title == "" {
+			title = "base"
 		}
+	} else {
+		title = "login"
 	}
 	p, _ := LoadPage(title)
 	RenderTemplate(response, title, p)
