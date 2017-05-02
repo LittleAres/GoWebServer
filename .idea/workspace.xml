@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c16f1e2f-7952-4bbe-b075-e9a73e500493" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/controllers/login.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/controllers/render.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/controllers/urls.go" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/views/route.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/model/User.go" afterPath="$PROJECT_DIR$/src/models/User.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/views/counter.go" afterPath="$PROJECT_DIR$/src/controllers/counter.go" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/views/mongo.go" afterPath="$PROJECT_DIR$/src/controllers/mongo.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Go_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Go_SDK.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/html/templates/login.html" afterPath="$PROJECT_DIR$/src/html/templates/login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main.go" afterPath="$PROJECT_DIR$/src/main.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/login.go" afterPath="$PROJECT_DIR$/src/views/login.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/register.go" afterPath="$PROJECT_DIR$/src/views/register.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/render.go" afterPath="$PROJECT_DIR$/src/views/render.go" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/views/urls.go" afterPath="$PROJECT_DIR$/src/views/urls.go" />
-    </list>
+    <list default="true" id="c16f1e2f-7952-4bbe-b075-e9a73e500493" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
